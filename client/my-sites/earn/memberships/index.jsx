@@ -23,6 +23,10 @@ import { requestSubscribers } from 'state/memberships/subscribers/actions';
 import { decodeEntities } from 'lib/formatting';
 import Gravatar from 'components/gravatar';
 import Button from 'components/button';
+import QueryMembershipProducts from 'components/data/query-memberships';
+import CompactCard from 'components/card/compact';
+import SectionHeader from 'components/section-header';
+import Gridicon from 'components/gridicon';
 
 class MembershipsSection extends Component {
 	constructor( props ) {
@@ -155,6 +159,26 @@ class MembershipsSection extends Component {
 		);
 	}
 
+	renderProducts() {
+		return (
+			<div>
+				<SectionHeader label={ this.props.translate( 'Active Membership plans' ) } />
+				<CompactCard href={ '/me/purchases/memberships/' }>
+					<QueryMembershipProducts siteId={ this.props.siteId } />
+					<div className="memberships__module-products-title">
+						{ this.props.translate( 'Membership Amounts' ) }
+					</div>
+					<div className="memberships__module-products-list">
+						<Gridicon icon="tag" size={ 12 } className="memberships__module-products-list-icon" />
+						{ this.props.products
+							.map( product => formatCurrency( product.price, product.currency ) )
+							.join( ', ' ) }
+					</div>
+				</CompactCard>
+			</div>
+		);
+	}
+
 	renderSubscriberSubscriptionSummary( subscriber ) {
 		if ( subscriber.plan.renew_interval === 'one-time' ) {
 			return this.props.translate( 'Paid %(amount)s once on %(formattedDate)s', {
@@ -206,6 +230,7 @@ class MembershipsSection extends Component {
 			<div>
 				{ this.renderEarnings() }
 				{ this.renderSubscriberList() }
+				{ this.renderProducts() }
 			</div>
 		);
 	}
@@ -223,6 +248,7 @@ const mapStateToProps = state => {
 		forecast: get( state, [ 'memberships', 'earnings', 'summary', siteId, 'forecast' ], 0 ),
 		totalSubscribers: get( state, [ 'memberships', 'subscribers', 'list', siteId, 'total' ], 0 ),
 		subscribers: get( state, [ 'memberships', 'subscribers', 'list', siteId, 'ownerships' ], {} ),
+		products: get( state, [ 'memberships', 'productList', 'items', siteId ], [] ),
 	};
 };
 
