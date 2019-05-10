@@ -13,9 +13,6 @@ const EVENTS = {
 		checkoutButtonClick() {
 			analytics.ga.recordEvent( 'Domain Search', 'Click "Checkout" Button on Popup Cart' );
 		},
-		keepSearchButtonClick() {
-			analytics.ga.recordEvent( 'Domain Search', 'Click "Keep Searching" Button on Popup Cart' );
-		},
 	},
 	domainManagement: {
 		edit: {
