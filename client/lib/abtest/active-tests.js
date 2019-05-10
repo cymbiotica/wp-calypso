@@ -198,7 +198,7 @@ export default {
 			right: 50,
 			original: 50,
 		},
-		defaultVariation: 'right',
+		defaultVariation: 'original',
 		allowExistingUsers: true,
 	},
 };
